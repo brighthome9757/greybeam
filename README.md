@@ -5,7 +5,7 @@ A simple sql transpilation + execution service. Given a sql query and the corres
 ![Architecture](./assets/img/excalidraw.png)
 https://excalidraw.com/#json=BIxlxhtGtaK1xnIHpOH1y,laCA7RfwmgTSjmwMffNkTQ
 
-See .docs/ for setup instructions for more:
+See .docs/ for setup instructions and more:
 - [Setup](./docs/setup.md)
 - [Notes](./docs/notes.md)
 
