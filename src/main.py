@@ -18,10 +18,13 @@ app.add_middleware(
 
 app.include_router(query_router)
 
+
 @app.get("/")
 async def root():
     return {"message": "Welcome to the SQL Query Transpilation API"}
 
+
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run("src.main:app", host="0.0.0.0", port=8000, reload=True)

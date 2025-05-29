@@ -4,7 +4,7 @@
   ##################################################################################################
   # https://devenv.sh/basics/
   ##################################################################################################
-  
+
   env = {
     PG_URL = "postgresql://postgres:password@localhost:5432/greybeam";
     CH_URL = "clickhouse://localhost:9000";
@@ -15,8 +15,13 @@
   ##################################################################################################
 
   packages = with pkgs; [
-    dbmate  # migrations tool
-    tbls  # db documentation
+    # Database
+    dbmate # migrations tool
+    tbls # db documentation
+
+    # Formatting
+    nixpkgs-fmt
+    ruff
   ];
 
   ##################################################################################################
@@ -41,7 +46,7 @@
   ##################################################################################################
   # https://devenv.sh/processes/
   ##################################################################################################
-  
+
   processes = {
     extract_gaming_dataset = {
       # exec = "bash -c '[ ! -f assets/archive.zip ] || unzip -q -o assets/archive.zip -d assets'";
@@ -213,6 +218,14 @@
     echo "Run 'devenv up' to launch server and target databases"
     echo -e ""
   '';
+
+
+  ##################################################################################################
+  # https://devenv.sh/reference/options/#git-hookshooks
+  ##################################################################################################
+
+  git-hooks.hooks.nixpkgs-fmt.enable = true; # nix formatter
+  git-hooks.hooks.ruff.enable = true; # python formatter
 
   # See full reference at https://devenv.sh/reference/options/
 }
