@@ -1,0 +1,21 @@
+# Devenv
+.devenv*
+devenv.local.nix
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml
+
+# Project Specific
+
+assets/archive/
+assets/extracted/
+tmp/
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+.DS_Store

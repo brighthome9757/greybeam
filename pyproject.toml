@@ -1,0 +1,20 @@
+[project]
+name = "greybeam"
+version = "0.1.0"
+description = "An toy sql transpilation service"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "clickhouse-driver>=0.2.9",
+    "fastapi>=0.115.12",
+    "psycopg2-binary>=2.9.10",
+    "sqlglot>=26.21.0",
+    "uvicorn>=0.34.2",
+]
+
+[project.scripts]
+greybeam = "greybeam:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
