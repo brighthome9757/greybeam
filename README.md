@@ -28,7 +28,8 @@ For more comprehensive details on assumptions and design decisions, see [Notes](
 - [x] Fix occasional bug requiring `rm -rf .devenv/state/postgres/ .devenv/state/clickhouse/` to clean up databases
   - FIXED: Use `clean-dbs` before running `devenv up`
 - [ ] Pull hardcoded db credentials out of application code into config
-- [ ] Record 'POST /run-query' requests in a database (probably clickhouse for analytics)
+- [x] Record 'POST /run-query' requests in a database (probably clickhouse for analytics)
+  - DONE: See `query_logs` table in clickhouse
 - [ ] Compare result sets and alert on differences
 - [ ] Create a `Dockerfile` for nix-less setup
 - [ ] Generate database documentation with `tbls`

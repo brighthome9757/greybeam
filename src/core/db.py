@@ -2,6 +2,7 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 import time
 import math
+import datetime
 from clickhouse_driver import Client
 
 from core.types import SQLDialect
@@ -77,8 +78,8 @@ def execute_pg_query(pg_query: dict) -> dict:
     return pg_query
 
 
-def execute_ch_query(ch_query: dict) -> dict:
-    # ClickHouse connection parameters - replace with your actual credentials
+def get_clickhouse_client():
+    """Get a ClickHouse client instance"""
     conn_params = {
         "host": "localhost",
         "port": 9000,
@@ -86,9 +87,12 @@ def execute_ch_query(ch_query: dict) -> dict:
         "password": "",
         "database": "default",
     }
+    return Client(**conn_params)
 
+
+def execute_ch_query(ch_query: dict) -> dict:
     try:
-        client = Client(**conn_params)
+        client = get_clickhouse_client()
 
         start_time = time.time()
         results = client.execute(ch_query["transpiled_sql"], with_column_types=True)
@@ -116,3 +120,63 @@ def execute_ch_query(ch_query: dict) -> dict:
         ch_query["results_sample"] = []
 
     return ch_query
+
+
+async def log_query_event(
+    request_id: str,
+    original_query: str,
+    source_dialect: str,
+    transpiled_query: str = "",
+    target_dialect: str = "",
+    transpilation_time_ms: int = 0,
+    execution_time_ms: int = 0,
+    fetch_time_ms: int = 0,
+    total_processing_time_ms: int = 0,
+    row_count: int = 0,
+    is_error: bool = False,
+    error: str = "",
+):
+    """Log query event to ClickHouse"""
+    try:
+        client = get_clickhouse_client()
+
+        query = """
+        INSERT INTO query_logs (
+            request_id,
+            timestamp,
+            original_query,
+            source_dialect,
+            transpiled_query,
+            target_dialect,
+            transpilation_time_ms,
+            execution_time_ms,
+            fetch_time_ms,
+            total_processing_time_ms,
+            row_count,
+            is_error,
+            error
+        ) VALUES
+        """
+
+        data = [
+            {
+                "request_id": request_id,
+                "timestamp": datetime.datetime.now(),
+                "original_query": original_query,
+                "source_dialect": source_dialect,
+                "transpiled_query": transpiled_query,
+                "target_dialect": target_dialect,
+                "transpilation_time_ms": transpilation_time_ms,
+                "execution_time_ms": execution_time_ms,
+                "fetch_time_ms": fetch_time_ms,
+                "total_processing_time_ms": total_processing_time_ms,
+                "row_count": row_count,
+                "is_error": is_error,
+                "error": error,
+            }
+        ]
+
+        client.execute(query, data)
+
+    except Exception as e:
+        print(f"Error logging query event: {str(e)}")
