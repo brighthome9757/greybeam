@@ -2,15 +2,19 @@ import math
 import sqlglot
 import time
 
+from core.types import SQLDialect
 
-def transpile_query(input_sql: str, input_dialect: str, target_dialect: str) -> dict:
+
+def transpile_query(
+    input_sql: str, input_dialect: SQLDialect, target_dialect: SQLDialect
+) -> dict:
     results = {}
 
     try:
         # Skip if source and target are the same
         if input_dialect == target_dialect:
             transpiled_sql = input_sql
-            transpilation_time_ms = 0
+            transpilation_time_ms = 0.0
         else:
             start_time = time.time()
 

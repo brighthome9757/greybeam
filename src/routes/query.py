@@ -1,43 +1,11 @@
 from fastapi import APIRouter, Body
 from pydantic import BaseModel, Field
-from typing import Enum
 
 import core.db
 import core.transpiler
+from core.types import SQLDialect
 
 router = APIRouter()
-
-
-class SQLDialect(str, Enum):
-    """Supported SQL dialects for query transpilation"""
-
-    ATHENA = "athena"
-    BIGQUERY = "bigquery"
-    CLICKHOUSE = "clickhouse"
-    DATABRICKS = "databricks"
-    DORIS = "doris"
-    DRILL = "drill"
-    DRUID = "druid"
-    DUCKDB = "duckdb"
-    DUNE = "dune"
-    HIVE = "hive"
-    MATERIALIZE = "materialize"
-    MYSQL = "mysql"
-    ORACLE = "oracle"
-    POSTGRES = "postgres"
-    PRESTO = "presto"
-    PRQL = "prql"
-    REDSHIFT = "redshift"
-    RISINGWAVE = "risingwave"
-    SNOWFLAKE = "snowflake"
-    SPARK = "spark"
-    SPARK2 = "spark2"
-    SQLITE = "sqlite"
-    STARROCKS = "starrocks"
-    TABLEAU = "tableau"
-    TERADATA = "teradata"
-    TRINO = "trino"
-    TSQL = "tsql"
 
 
 class QueryRequest(BaseModel):
@@ -57,7 +25,7 @@ class QueryRequest(BaseModel):
 @router.post("/run-query")
 async def run_query(request: QueryRequest = Body(...)):
     # Target dialects to transpile to
-    target_dialects = ["clickhouse", "postgres"]
+    target_dialects = [SQLDialect.CLICKHOUSE, SQLDialect.POSTGRES]
     results = {}
 
     # TODO Generate "run_id" uuid for session, to be used as prefix for CH primary key with `time`

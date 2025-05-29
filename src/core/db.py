@@ -4,14 +4,16 @@ import time
 import math
 from clickhouse_driver import Client
 
+from core.types import SQLDialect
 
-def execute_query(target_dialect: str, target_queries: dict) -> dict:
+
+def execute_query(target_dialect: SQLDialect, target_queries: dict) -> dict:
     match target_dialect:
-        case "postgres":
+        case SQLDialect.POSTGRES:
             target_queries["postgres"] = execute_pg_query(
                 pg_query=target_queries["postgres"]
             )
-        case "clickhouse":
+        case SQLDialect.CLICKHOUSE:
             target_queries["clickhouse"] = execute_ch_query(
                 ch_query=target_queries["clickhouse"]
             )
@@ -109,8 +111,8 @@ def execute_ch_query(ch_query: dict) -> dict:
         print(f"ClickHouse error: {e}")
 
         ch_query["error"] = f"Error executing against clickhouse: {str(e)}"
-        ch_query["execution_time_ms"] = 0
-        ch_query["row_count"] = 0
+        ch_query["execution_time_ms"] = 0.0
+        ch_query["row_count"] = 0.0
         ch_query["results_sample"] = []
 
     return ch_query
