@@ -25,11 +25,15 @@ For more comprehensive details on assumptions and design decisions, see [Notes](
 
 ### What Would I Do With More Time
 
-1. Fix occasional bug requiring `rm -rf .devenv/state/postgres/ .devenv/state/clickhouse/` to clean up databases
-2. Pull hardcoded db credentials out of application code into config
-3. Record 'POST /run-query' requests in a database (probably clickhouse for analytics)
-4. Compare result sets and alert on differences
-5. Create a `Dockerfile` for nix-less setup
-6. Generate database documentation with `tbls`
-7. Tweak `uv` project structure so server could be started with `uv run greybeam` or `uv run server`
-8. OTel for metrics and observability
+- [x] Fix occasional bug requiring `rm -rf .devenv/state/postgres/ .devenv/state/clickhouse/` to clean up databases
+  - FIXED: Use `clean-dbs` before running `devenv up`
+- [ ] Pull hardcoded db credentials out of application code into config
+- [x] Record 'POST /run-query' requests in a database (probably clickhouse for analytics)
+  - DONE: See `query_logs` table in clickhouse
+- [ ] Compare result sets and alert on differences
+- [ ] Create a `Dockerfile` for nix-less setup
+- [ ] Generate database documentation with `tbls`
+- [ ] Tweak `uv` project structure so server could be started with `uv run greybeam` or `uv run server`
+- [ ] OTel for metrics and observability
+- [x] Formatting
+- [x] SQLDialect enum

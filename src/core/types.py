@@ -1,0 +1,33 @@
+from enum import Enum
+
+
+class SQLDialect(str, Enum):
+    """Supported SQL dialects for query transpilation"""
+
+    ATHENA = "athena"
+    BIGQUERY = "bigquery"
+    CLICKHOUSE = "clickhouse"
+    DATABRICKS = "databricks"
+    DORIS = "doris"
+    DRILL = "drill"
+    DRUID = "druid"
+    DUCKDB = "duckdb"
+    DUNE = "dune"
+    HIVE = "hive"
+    MATERIALIZE = "materialize"
+    MYSQL = "mysql"
+    ORACLE = "oracle"
+    POSTGRES = "postgres"
+    PRESTO = "presto"
+    PRQL = "prql"
+    REDSHIFT = "redshift"
+    RISINGWAVE = "risingwave"
+    SNOWFLAKE = "snowflake"
+    SPARK = "spark"
+    SPARK2 = "spark2"
+    SQLITE = "sqlite"
+    STARROCKS = "starrocks"
+    TABLEAU = "tableau"
+    TERADATA = "teradata"
+    TRINO = "trino"
+    TSQL = "tsql"

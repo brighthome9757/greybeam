@@ -4,7 +4,7 @@
   ##################################################################################################
   # https://devenv.sh/basics/
   ##################################################################################################
-  
+
   env = {
     PG_URL = "postgresql://postgres:password@localhost:5432/greybeam";
     CH_URL = "clickhouse://localhost:9000";
@@ -15,8 +15,16 @@
   ##################################################################################################
 
   packages = with pkgs; [
-    dbmate  # migrations tool
-    tbls  # db documentation
+    # Python
+    mypy # typechecker (ty not working yet)
+
+    # Database
+    dbmate # migrations tool
+    tbls # db documentation
+
+    # Formatting
+    nixpkgs-fmt
+    ruff
   ];
 
   ##################################################################################################
@@ -41,7 +49,7 @@
   ##################################################################################################
   # https://devenv.sh/processes/
   ##################################################################################################
-  
+
   processes = {
     extract_gaming_dataset = {
       # exec = "bash -c '[ ! -f assets/archive.zip ] || unzip -q -o assets/archive.zip -d assets'";
@@ -200,11 +208,6 @@
   ##################################################################################################
 
   enterShell = ''
-    echo "Cleaning up database state directories..."
-    rm -rf .devenv/state/clickhouse/
-    rm -rf .devenv/state/postgres/
-    echo "Database state directories cleaned. Fresh databases will be initialized."
-
     echo -e ""
     echo "PG_URL is set to: $PG_URL"
     echo "CH_URL is set to: $CH_URL"
@@ -213,6 +216,25 @@
     echo "Run 'devenv up' to launch server and target databases"
     echo -e ""
   '';
+
+  ##################################################################################################
+  # https://devenv.sh/scripts
+  ##################################################################################################
+
+  scripts.clean-dbs.exec = ''
+    echo "Cleaning up database state directories..."
+    rm -rf .devenv/state/clickhouse/
+    rm -rf .devenv/state/postgres/
+    echo "Database state directories cleaned. Fresh databases will be initialized."
+  '';
+
+
+  ##################################################################################################
+  # https://devenv.sh/reference/options/#git-hookshooks
+  ##################################################################################################
+
+  git-hooks.hooks.nixpkgs-fmt.enable = true; # nix formatter
+  git-hooks.hooks.ruff.enable = true; # python formatter
 
   # See full reference at https://devenv.sh/reference/options/
 }

@@ -20,6 +20,10 @@ This will trigger a nix build and download all of the necessary dependencies.
 In one terminal, you can use `devenv` to start up local ClickHouse and Postgres servers, extract the ["Gaming Profiles 2025" dataset](https://www.kaggle.com/datasets/artyomkruglov/gaming-profiles-2025-steam-playstation-xbox/data) archive, run migrations, seed the databases, and a launch the sql transpilation server. This command will render a TUI for devenv's process manager (process-compose):
 
 ```bash
+$ clean-dbs
+Cleaning up database state directories...
+Database state directories cleaned. Fresh databases will be initialized.
+
 $ devenv up
 ```
 
@@ -93,6 +97,12 @@ If you run into issues with postgres or clickhouse, stop the servers and run the
 
 ```bash
 $ rm -rf .devenv/state/postgres/ .devenv/state/clickhouse/
+```
+
+OR
+
+```bash
+$ clean-dbs
 ```
 
 This will remove any previous database state so that new ones can be created from scratch.
