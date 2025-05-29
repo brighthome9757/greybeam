@@ -15,6 +15,9 @@
   ##################################################################################################
 
   packages = with pkgs; [
+    # Python
+    mypy # typechecker (ty not working yet)
+
     # Database
     dbmate # migrations tool
     tbls # db documentation
@@ -205,11 +208,6 @@
   ##################################################################################################
 
   enterShell = ''
-    echo "Cleaning up database state directories..."
-    rm -rf .devenv/state/clickhouse/
-    rm -rf .devenv/state/postgres/
-    echo "Database state directories cleaned. Fresh databases will be initialized."
-
     echo -e ""
     echo "PG_URL is set to: $PG_URL"
     echo "CH_URL is set to: $CH_URL"
@@ -217,6 +215,17 @@
     echo -e ""
     echo "Run 'devenv up' to launch server and target databases"
     echo -e ""
+  '';
+
+  ##################################################################################################
+  # https://devenv.sh/scripts
+  ##################################################################################################
+
+  scripts.clean-dbs.exec = ''
+    echo "Cleaning up database state directories..."
+    rm -rf .devenv/state/clickhouse/
+    rm -rf .devenv/state/postgres/
+    echo "Database state directories cleaned. Fresh databases will be initialized."
   '';
 
 
