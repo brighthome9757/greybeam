@@ -1,5 +1,9 @@
 # Setup 
 
+ATTENTION: Before starting, please download the ["Gaming Profiles 2025" dataset](https://www.kaggle.com/datasets/artyomkruglov/gaming-profiles-2025-steam-playstation-xbox/data) dataset. Place the resulting `archive.zip` in the `assets/` directory.
+
+---
+
 I have only tested on an ARM MacOS laptop.
 
 This setup requires the Nix package manager. Follow the first two steps in the "Installation" section on devenv.sh to get set up: https://devenv.sh/getting-started/

@@ -10,6 +10,7 @@ devenv.local.nix
 
 # Project Specific
 
+assets/archive.zip
 assets/archive/
 assets/extracted/
 tmp/
